@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MediMap Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>MediMap Admin Panel</h1>
+    <a href="/">Back to Map</a>
+</header>
+
+<section class="form-section">
+    <h2>Add Clinic</h2>
+
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Clinic Name" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <input type="text" name="contact" placeholder="Contact Number">
+        <input type="text" name="services" placeholder="Services Offered">
+        <input type="text" name="latitude" placeholder="Latitude" required>
+        <input type="text" name="longitude" placeholder="Longitude" required>
+        <button type="submit">Add Clinic</button>
+    </form>
+</section>
+
+<section class="table-section">
+    <h2>Clinic List</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Clinic Name</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th>Services</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Action</th>
+        </tr>
+
+        {% for clinic in clinics %}
+        <tr>
+            <td>{{ clinic.id }}</td>
+            <td>{{ clinic.name }}</td>
+            <td>{{ clinic.address }}</td>
+            <td>{{ clinic.contact }}</td>
+            <td>{{ clinic.services }}</td>
+            <td>{{ clinic.latitude }}</td>
+            <td>{{ clinic.longitude }}</td>
+            <td>
+                <a href="/delete/{{ clinic.id }}" onclick="return confirm('Delete this clinic?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</section>
+
+</body>
+</html>
