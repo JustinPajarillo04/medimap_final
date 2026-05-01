@@ -5,6 +5,17 @@ class Clinic:
     def __init__(self):
         self.db = Database()
 
+    def format_clinics(self, clinics):
+        formatted = []
+
+        for clinic in clinics:
+            clinic = dict(clinic)
+            clinic["latitude"] = float(clinic["latitude"])
+            clinic["longitude"] = float(clinic["longitude"])
+            formatted.append(clinic)
+
+        return formatted
+
     def get_all_clinics(self):
         connection = self.db.connect()
         cursor = connection.cursor()
@@ -15,7 +26,7 @@ class Clinic:
         cursor.close()
         connection.close()
 
-        return clinics
+        return self.format_clinics(clinics)
 
     def search_clinics(self, keyword):
         connection = self.db.connect()
@@ -36,7 +47,7 @@ class Clinic:
         cursor.close()
         connection.close()
 
-        return clinics
+        return self.format_clinics(clinics)
 
     def add_clinic(self, name, address, contact, services, latitude, longitude):
         connection = self.db.connect()
