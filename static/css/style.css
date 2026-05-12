@@ -1,0 +1,1675 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #0f172a;
+    background: #ffffff;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+/* ==========================================================================
+   BUTTONS / COMMON UTILITIES
+   ========================================================================== */
+
+.primary-btn,
+.login-card button,
+.hero-search-btn,
+.service-find-btn,
+.login-btn {
+    border: none;
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+    color: #ffffff;
+    padding: 15px 22px;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(47, 125, 246, 0.22);
+}
+
+.primary-btn:hover,
+.hero-search-btn:hover,
+.service-find-btn:hover,
+.login-btn:hover {
+    opacity: 0.94;
+}
+
+.outline-btn {
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.full-btn {
+    width: 100%;
+}
+
+/* ==========================================================================
+   LOGIN PAGE - CENTERED, NO SIDEBAR
+   ========================================================================== */
+
+.login-screen {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, rgba(47, 125, 246, 0.35), transparent 36%),
+        linear-gradient(135deg, #071827 0%, #0d2a40 45%, #123c5a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-brand {
+    text-align: center;
+    color: white;
+    margin-bottom: 28px;
+}
+
+.login-brand-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 16px;
+    font-size: 40px;
+    font-weight: 900;
+    box-shadow: 0 16px 36px rgba(47, 125, 246, 0.35);
+}
+
+.login-brand h1 {
+    margin: 0;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.login-brand p {
+    margin: 8px 0 0;
+    color: #bdd0df;
+    font-size: 16px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 600px;
+    display: grid;
+    gap: 18px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: none;
+    background: white;
+    color: #071827;
+    border-radius: 28px;
+    padding: 42px;
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32);
+}
+
+.login-card h2 {
+    text-align: center;
+    font-size: 32px;
+    margin: 0 0 10px;
+    color: #071827;
+}
+
+.login-card p {
+    text-align: center;
+    color: #64748b;
+    margin: 0 0 28px;
+}
+
+.login-card label {
+    color: #071827;
+    font-weight: 900;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.login-card input {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 16px 20px;
+    font-size: 16px;
+    margin-bottom: 18px;
+    outline: none;
+}
+
+.login-card input:focus {
+    border-color: #2f7df6;
+    box-shadow: 0 0 0 4px rgba(47, 125, 246, 0.12);
+}
+
+.login-card button {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 14px 30px rgba(47, 125, 246, 0.25);
+}
+
+.public-browse-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(191, 219, 254, 0.9);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.20);
+}
+
+.public-browse-card h3 {
+    margin: 0 0 8px;
+    color: #071827;
+    font-size: 22px;
+}
+
+.public-browse-card p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.45;
+}
+
+.public-browse-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.public-browse-actions a {
+    display: block;
+    text-align: center;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    padding: 12px 14px;
+    border-radius: 999px;
+    font-weight: 900;
+}
+
+.public-browse-actions a:hover {
+    background: #dbeafe;
+}
+
+.error-message {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 700;
+}
+
+@media (max-width: 650px) {
+    .login-screen {
+        justify-content: flex-start;
+        padding-top: 34px;
+    }
+
+    .login-card {
+        padding: 30px 22px;
+    }
+
+    .public-browse-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .login-brand h1 {
+        font-size: 34px;
+    }
+}
+/* ==========================================================================
+   APP SHELL / SIDEBAR
+   ========================================================================== */
+
+.app-shell {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+.sidebar {
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    color: #071827;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 5;
+}
+
+.sidebar-brand {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 30px 28px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.brand-icon {
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+    color: #ffffff;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    font-weight: 900;
+    box-shadow: 0 12px 28px rgba(47, 125, 246, 0.25);
+}
+
+.sidebar-brand h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #071827;
+}
+
+.sidebar-brand p {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.sidebar-tagline {
+    margin: 0 20px 10px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    display: grid;
+    gap: 6px;
+}
+
+.sidebar-tagline strong {
+    color: #071827;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.sidebar-tagline small {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.sidebar-nav {
+    padding: 24px 20px;
+    display: grid;
+    gap: 10px;
+}
+
+.sidebar-nav a {
+    color: #1e293b;
+    padding: 16px 18px;
+    border-radius: 12px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    font-weight: 800;
+}
+
+.sidebar-nav a.active,
+.sidebar-nav a:hover {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.logged-card {
+    background: #f8fafc;
+    color: #071827;
+    border: 1px solid #e5e7eb;
+    padding: 18px;
+    border-radius: 14px;
+    display: grid;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.logged-card small {
+    color: #64748b;
+}
+
+.logout-link {
+    display: block;
+    color: #dc2626;
+    font-weight: 900;
+    padding: 14px 18px;
+}
+
+/* ==========================================================================
+   MAIN CONTENT
+   ========================================================================== */
+
+.main-content {
+    padding: 42px;
+    background:
+        radial-gradient(circle at top right, rgba(47, 125, 246, 0.30), transparent 35%),
+        linear-gradient(135deg, #071827 0%, #0d2a40 45%, #123c5a 100%);
+    border-radius: 34px 0 0 34px;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.page-header,
+.admin-page-header {
+    margin-bottom: 26px;
+}
+
+.page-header h1,
+.admin-page-header h1 {
+    font-size: 42px;
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.page-header p,
+.admin-page-header p {
+    color: #bdd0df;
+    font-size: 18px;
+    margin: 0;
+}
+
+.section-title h2 {
+    color: #ffffff;
+    margin: 0 0 8px;
+}
+
+.section-title p {
+    color: #bdd0df;
+}
+
+/* ==========================================================================
+   SHARED CARDS
+   ========================================================================== */
+
+.clinic-card,
+.admin-clinic-card,
+.service-card,
+.search-card,
+.admin-search-card,
+.map-card,
+.nearby-hero,
+.empty-state,
+.services-hero-copy,
+.services-hero-stats {
+    background: rgba(255, 255, 255, 0.98);
+    color: #071827;
+    border-radius: 24px;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.18);
+}
+
+.search-card,
+.admin-search-card {
+    padding: 28px;
+    margin-bottom: 28px;
+}
+
+.clinic-card,
+.admin-clinic-card,
+.service-card {
+    padding: 28px;
+}
+
+.clinic-card {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.clinic-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.clinic-card h3,
+.admin-clinic-card h2,
+.service-card h2 {
+    color: #071827;
+    margin: 0 0 12px;
+}
+
+.clinic-card h3 {
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.clinic-card p,
+.service-card p,
+.admin-clinic-info p,
+.admin-location-info p {
+    color: #475569;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.clinic-card-header span,
+.status-badge {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    white-space: nowrap;
+    font-weight: 800;
+}
+
+.clinic-rating {
+    color: #f59e0b !important;
+    font-weight: 900;
+    margin: 8px 0 12px !important;
+}
+
+.service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 16px 0;
+}
+
+.service-tags span {
+    background: #e8f1ff;
+    color: #0d63ff;
+    border: 1px solid #9fc3ff;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.clinic-actions,
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.clinic-actions {
+    margin-top: auto;
+}
+
+.clinic-actions button:first-child {
+    flex: 1;
+}
+
+.distance-text {
+    color: #2563eb !important;
+    font-weight: 900;
+}
+
+/* ==========================================================================
+   FIND CLINICS
+   ========================================================================== */
+
+.hero-map-page {
+    min-height: calc(100vh - 84px);
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 42px;
+    align-items: center;
+    padding-bottom: 44px;
+}
+
+.hero-left {
+    color: #ffffff;
+}
+
+.verified-pill,
+.services-pill {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 28px;
+}
+
+.verified-pill {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #dbeafe;
+}
+
+.verified-pill span,
+.services-pill span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.verified-pill span {
+    background: #a8c6ff;
+}
+
+.hero-left h1 {
+    color: #ffffff;
+    font-size: clamp(42px, 4.6vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin: 0 0 26px;
+    font-weight: 900;
+}
+
+.hero-left h1 em {
+    color: #a8c6ff;
+    font-style: normal;
+}
+
+.hero-description {
+    max-width: 640px;
+    color: #bdd0df;
+    font-size: 18px;
+    line-height: 1.55;
+    font-weight: 600;
+    margin-bottom: 28px;
+}
+
+.hero-search-row,
+.nearby-search-row {
+    max-width: 760px;
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr auto;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+
+.hero-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 0 18px;
+    min-height: 58px;
+}
+
+.hero-search span {
+    font-size: 20px;
+}
+
+.hero-search input,
+.admin-search-card input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #334155;
+    width: 100%;
+    background: transparent;
+}
+
+.hero-service-select {
+    width: 100%;
+    border: none;
+    background: #ffffff;
+    color: #071827;
+    border-radius: 999px;
+    padding: 0 18px;
+    outline: none;
+    font-size: 15px;
+    font-weight: 800;
+    min-height: 58px;
+}
+
+.hero-search-btn {
+    border-radius: 999px;
+    padding: 0 28px;
+    min-height: 58px;
+    font-size: 15px;
+}
+
+.search-mode-row,
+.hero-chips {
+    max-width: 760px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.search-mode-row {
+    margin-bottom: 18px;
+}
+
+.search-mode-btn,
+.hero-chips button {
+    border-radius: 999px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.search-mode-btn {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e9f4ff;
+    padding: 10px 16px;
+}
+
+.search-mode-btn.active {
+    background: #dbeafe;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+}
+
+.hero-chips {
+    margin-bottom: 32px;
+}
+
+.hero-chips button {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.12);
+    color: #eaf2f8;
+    padding: 12px 20px;
+}
+
+.hero-chips button:hover {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.hero-stats {
+    max-width: 680px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.hero-stats div {
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0 30px;
+}
+
+.hero-stats div:first-child {
+    padding-left: 0;
+}
+
+.hero-stats div:last-child {
+    border-right: none;
+}
+
+.hero-stats strong {
+    display: block;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.hero-stats span {
+    display: block;
+    color: #9fb2c2;
+    font-size: 14px;
+    font-weight: 800;
+    margin-top: 6px;
+}
+
+.hero-right {
+    min-width: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+}
+
+.map-card {
+    padding: 24px;
+    min-height: 580px;
+}
+
+.hero-map-card {
+    width: 100%;
+    min-height: 610px !important;
+    height: 610px;
+    padding: 18px !important;
+    border-radius: 34px !important;
+}
+
+#map {
+    height: 520px;
+    border-radius: 20px;
+    background: #f1f5f9;
+}
+
+.hero-map-card #map {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    border-radius: 24px;
+}
+
+/* ==========================================================================
+   CLINIC LISTS / PAGINATION
+   ========================================================================== */
+
+.clinic-carousel-section {
+    margin-top: 20px;
+    padding-bottom: 50px;
+}
+
+.carousel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    gap: 16px;
+}
+
+.carousel-header h2 {
+    color: #ffffff;
+    font-size: 32px;
+    margin: 0 0 8px;
+}
+
+.carousel-header p {
+    color: #bdd0df;
+    margin: 0;
+}
+
+.carousel-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-controls button {
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1d4ed8;
+    font-size: 26px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.clinic-list {
+    display: grid;
+    gap: 18px;
+}
+
+.clinic-carousel-grid,
+.clinic-grid-3,
+.service-carousel-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 24px !important;
+}
+
+.clinic-carousel-grid .clinic-card,
+.clinic-grid-3 .clinic-card,
+.service-carousel-grid .clinic-card {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+}
+
+.clinic-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.clinic-pagination button {
+    border: 1px solid #9fc3ff;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0d63ff;
+    padding: 10px 15px;
+    border-radius: 999px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.clinic-pagination button.active {
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+    color: #ffffff;
+}
+
+.clinic-pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   CONTENT GRIDS / NEARBY
+   ========================================================================== */
+
+.search-grid,
+.content-grid {
+    display: grid;
+    gap: 28px;
+    align-items: start;
+}
+
+.search-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.content-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.search-card select,
+.search-card input,
+.clinic-form input,
+.clinic-form select,
+.clinic-form textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    color: #071827;
+}
+
+.nearby-hero {
+    border: 1px solid rgba(191, 219, 254, 0.85);
+    padding: 46px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.nearby-icon {
+    width: 90px;
+    height: 90px;
+    background: #e8f1ff;
+    color: #2563eb;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    font-size: 42px;
+}
+
+.nearby-hero h2 {
+    color: #071827;
+    font-size: 32px;
+    margin: 0 0 16px;
+}
+
+.nearby-hero p {
+    color: #475569;
+    max-width: 760px;
+    margin: 0 auto 24px;
+    font-size: 18px;
+}
+
+.nearby-hero .primary-btn {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+}
+
+.nearby-location-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 0 22px;
+    min-height: 58px;
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    color: #ffffff;
+    font-weight: 900;
+    cursor: pointer;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   SERVICES
+   ========================================================================== */
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+}
+
+.services-hero {
+    display: grid;
+    grid-template-columns: 1.45fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
+    margin-bottom: 28px;
+}
+
+.services-hero-copy {
+    padding: 32px;
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at top right, rgba(47, 125, 246, 0.18), transparent 40%),
+        rgba(255, 255, 255, 0.98);
+}
+
+.services-hero-copy h1 {
+    margin: 18px 0 14px;
+    font-size: clamp(34px, 4vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -1.5px;
+}
+
+.services-hero-copy p {
+    margin: 0;
+    color: #475569;
+    max-width: 720px;
+    font-size: 17px;
+    line-height: 1.55;
+}
+
+.services-pill {
+    background: rgba(59, 130, 246, 0.10);
+    border: 1px solid rgba(96, 165, 250, 0.30);
+    color: #1d4ed8;
+}
+
+.services-pill span {
+    background: #60a5fa;
+}
+
+.services-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: hidden;
+}
+
+.services-hero-stats div {
+    padding: 26px 22px;
+    border-right: 1px solid #e5e7eb;
+    display: grid;
+    align-content: center;
+}
+
+.services-hero-stats div:last-child {
+    border-right: none;
+}
+
+.services-hero-stats strong {
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.services-hero-stats span {
+    color: #64748b;
+    font-size: 14px;
+    margin-top: 6px;
+    font-weight: 800;
+}
+
+.service-card {
+    padding: 0 !important;
+    overflow: hidden !important;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-image {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.service-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.45), rgba(7, 24, 39, 0.20));
+}
+
+.dental-image { background-image: url("https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=900&q=80"); }
+.checkup-image { background-image: url("https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=900&q=80"); }
+.vaccination-image { background-image: url("https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?auto=format&fit=crop&w=900&q=80"); }
+.rabies-image { background-image: url("https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=900&q=80"); }
+.laboratory-image { background-image: url("https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=900&q=80"); }
+.dialysis-image { background-image: url("https://images.unsplash.com/photo-1581595219315-a187dd40c322?auto=format&fit=crop&w=900&q=80"); }
+.pediatric-image { background-image: url("https://images.unsplash.com/photo-1576765607924-0f6e5f8f1f56?auto=format&fit=crop&w=900&q=80"); }
+.obgyn-image { background-image: url("https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80"); }
+.healthcenter-image { background-image: url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=900&q=80"); }
+
+.service-card-body {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.service-card h2 {
+    font-size: 28px;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.service-count {
+    background: #e8f1ff;
+    color: #0d63ff;
+    border: 1px solid #9fc3ff;
+    font-size: 15px;
+    padding: 5px 10px;
+    border-radius: 999px;
+}
+
+.service-card p {
+    margin: 0 0 24px;
+    min-height: 52px;
+}
+
+.service-find-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: auto;
+    font-size: 15px;
+}
+
+/* service modal/overlay */
+.service-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: stretch;
+    justify-content: center;
+    background: rgba(7, 24, 39, 0.74);
+    backdrop-filter: blur(12px);
+    padding: 24px;
+    z-index: 1200;
+}
+
+.service-overlay-panel {
+    width: min(1280px, 100%);
+    background: rgba(255, 255, 255, 0.98);
+    color: #071827;
+    border-radius: 30px;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   ADMIN MANAGEMENT - FIXED CARDS
+   ========================================================================== */
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 26px;
+}
+
+.admin-search-card .input-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 0 18px;
+    min-height: 58px;
+}
+
+.admin-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* Main fix: vertical card layout instead of scattered horizontal layout */
+.admin-clinic-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    min-height: 420px;
+    padding: 28px !important;
+    overflow: hidden;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.admin-clinic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 65px rgba(0, 0, 0, 0.24);
+}
+
+.admin-clinic-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.admin-clinic-info h2 {
+    font-size: 24px;
+    line-height: 1.18;
+    margin: 0 0 10px;
+    color: #071827;
+    overflow-wrap: anywhere;
+}
+
+.admin-clinic-info p {
+    margin: 5px 0;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.admin-clinic-info .status-badge {
+    width: fit-content;
+    margin: 4px 0 10px;
+}
+
+.admin-location-info {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-top: auto;
+    display: grid;
+    gap: 4px;
+}
+
+.admin-location-info p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.admin-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    margin-top: 0 !important;
+}
+
+.edit-btn,
+.delete-btn {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    padding: 13px 18px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: 900;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: linear-gradient(135deg, #2f7df6, #1d4ed8);
+}
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+/* ==========================================================================
+   SERVICE BUTTON SELECTOR / FORMS
+   ========================================================================== */
+
+.service-select-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.service-option {
+    display: block;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.service-option input[type="checkbox"] {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.service-option span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 900;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+.service-option span:hover {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.service-option input[type="checkbox"]:checked + span {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #15803d;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.14);
+}
+
+.form-subtitle {
+    color: #64748b;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.clinic-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.clinic-form input:focus,
+.clinic-form select:focus,
+.clinic-form textarea:focus {
+    outline: none;
+    border-color: #2f7df6;
+    box-shadow: 0 0 0 3px rgba(47, 125, 246, 0.12);
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #ffffff;
+    color: #071827;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 18px 45px rgba(7, 24, 39, 0.12);
+}
+
+.admin-modal {
+    max-width: 640px;
+}
+
+.close-btn {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.detail-map-strip {
+    background: linear-gradient(135deg, #dbeafe, #ecfeff);
+    height: 130px;
+    margin: -28px -28px 22px;
+    display: grid;
+    place-items: center;
+}
+
+.detail-pin {
+    background: #2563eb;
+    color: #ffffff;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+}
+
+.detail-item {
+    display: flex;
+    gap: 14px;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 14px 0;
+}
+
+.detail-item small {
+    color: #64748b;
+}
+
+.detail-item p {
+    margin: 5px 0;
+}
+
+.empty-state {
+    padding: 28px;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1250px) {
+    .hero-map-page,
+    .services-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-map-card {
+        height: 480px;
+        min-height: 480px !important;
+    }
+
+    .hero-map-card #map {
+        min-height: 440px;
+    }
+
+    .clinic-carousel-grid,
+    .clinic-grid-3,
+    .service-carousel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .services-grid,
+    .admin-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 950px) {
+    .app-shell {
+        grid-template-columns: 1fr;
+        background: #f8fafc;
+    }
+
+    .sidebar {
+        position: relative;
+        height: auto;
+    }
+
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .main-content {
+        padding: 24px;
+        border-radius: 0;
+    }
+
+    .content-grid,
+    .search-grid,
+    .services-grid,
+    .admin-list,
+    .form-row,
+    .hero-search-row,
+    .nearby-search-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-page-header,
+    .carousel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #map {
+        height: 360px;
+    }
+
+    .service-select-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-image {
+        height: 150px;
+    }
+
+    .service-card,
+    .admin-clinic-card {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 760px) {
+    .hero-left h1 {
+        font-size: 38px;
+        letter-spacing: -1px;
+        line-height: 1.1;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .hero-stats,
+    .services-hero-stats {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .hero-stats div,
+    .services-hero-stats div {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 0 0 18px;
+    }
+
+    .hero-stats div:last-child,
+    .services-hero-stats div:last-child {
+        border-bottom: none;
+    }
+
+    .clinic-carousel-grid,
+    .clinic-grid-3,
+    .service-carousel-grid,
+    .admin-list {
+        grid-template-columns: 1fr !important;
+    }
+
+    .hero-map-card {
+        height: 360px;
+        min-height: 360px !important;
+    }
+
+    .hero-map-card #map {
+        min-height: 320px;
+    }
+
+    .admin-actions {
+        flex-direction: column !important;
+    }
+
+    .page-header h1,
+    .admin-page-header h1 {
+        font-size: 34px;
+    }
+}
+
+/* =========================================================
+   FINAL ADMIN MANAGEMENT CARD FIX
+   This must stay OUTSIDE media queries.
+   ========================================================= */
+
+.admin-list,
+.admin-clinics-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(420px, 1fr)) !important;
+    gap: 26px !important;
+    align-items: stretch !important;
+    width: 100% !important;
+}
+
+.admin-clinic-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 430px !important;
+    padding: 30px !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: #071827 !important;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.18) !important;
+}
+
+.admin-clinic-info,
+.admin-location-info {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.admin-clinic-info h2,
+.admin-clinic-info h3 {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 10px !important;
+    color: #071827 !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+.admin-clinic-info p,
+.admin-location-info p {
+    margin: 6px 0 !important;
+    color: #475569 !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+.admin-clinic-info .status-badge,
+.admin-clinic-card .status-badge {
+    display: inline-block !important;
+    width: fit-content !important;
+    margin: 4px 0 10px !important;
+}
+
+.admin-clinic-card .clinic-rating {
+    margin: 8px 0 12px !important;
+    color: #f59e0b !important;
+    font-weight: 900 !important;
+}
+
+.admin-clinic-card .service-tags {
+    margin: 14px 0 !important;
+}
+
+.admin-location-info {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    margin-top: auto !important;
+}
+
+.admin-actions,
+.admin-card-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 12px !important;
+}
+
+.admin-actions .edit-btn,
+.admin-actions .delete-btn,
+.admin-card-actions .edit-btn,
+.admin-card-actions .delete-btn {
+    flex: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+@media (max-width: 1250px) {
+    .admin-list,
+    .admin-clinics-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .admin-list,
+    .admin-clinics-container {
+        grid-template-columns: 1fr !important;
+    }
+
+    .admin-clinic-card {
+        min-height: auto !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-actions,
+    .admin-card-actions {
+        flex-direction: column !important;
+    }
+    .public-browse-actions-two {
+    grid-template-columns: repeat(2, 1fr) !important;
+}
+}

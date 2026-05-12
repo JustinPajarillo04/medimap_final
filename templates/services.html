@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<section class="page-header">
+    <h1>Services Directory</h1>
+    <p>Browse clinics by available healthcare service.</p>
+</section>
+
+<section class="services-grid">
+
+    <div class="service-card">
+        <div class="service-image dental-image"></div>
+        <div class="service-card-body">
+            <h2>Dental <span id="count-Dental" class="service-count">0</span></h2>
+            <p>Find clinics that offer dental consultation and oral care services.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Dental')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image checkup-image"></div>
+        <div class="service-card-body">
+            <h2>Check-up <span id="count-Check-up" class="service-count">0</span></h2>
+            <p>Find clinics for general consultation and routine check-ups.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Check-up')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image vaccination-image"></div>
+        <div class="service-card-body">
+            <h2>Vaccination <span id="count-Vaccination" class="service-count">0</span></h2>
+            <p>Find clinics that provide vaccination services.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Vaccination')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image rabies-image"></div>
+        <div class="service-card-body">
+            <h2>Anti-Rabies <span id="count-Anti-Rabies" class="service-count">0</span></h2>
+            <p>Find clinics offering anti-rabies and dog bite treatment support.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Anti-Rabies')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image laboratory-image"></div>
+        <div class="service-card-body">
+            <h2>Laboratory <span id="count-Laboratory" class="service-count">0</span></h2>
+            <p>Find clinics with laboratory testing and diagnostic services.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Laboratory')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image dialysis-image"></div>
+        <div class="service-card-body">
+            <h2>Dialysis <span id="count-Dialysis" class="service-count">0</span></h2>
+            <p>Find clinics or centers offering dialysis services.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Dialysis')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image pediatric-image"></div>
+        <div class="service-card-body">
+            <h2>Pediatric <span id="count-Pediatric" class="service-count">0</span></h2>
+            <p>Find clinics that offer child healthcare and pediatric consultation.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Pediatric')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image obgyn-image"></div>
+        <div class="service-card-body">
+            <h2>OB-GYN <span id="count-OB-GYN" class="service-count">0</span></h2>
+            <p>Find clinics offering women’s health and OB-GYN services.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('OB-GYN')">Find Clinics</button>
+        </div>
+    </div>
+
+    <div class="service-card">
+        <div class="service-image healthcenter-image"></div>
+        <div class="service-card-body">
+            <h2>Health Center <span id="count-Health-Center" class="service-count">0</span></h2>
+            <p>Find public health centers and community healthcare facilities.</p>
+            <button type="button" class="service-find-btn" onclick="showServiceClinics('Health Center')">Find Clinics</button>
+        </div>
+    </div>
+
+</section>
+
+<section id="serviceClinicResults" class="service-clinic-results" style="display: none;">
+    <div class="carousel-header">
+        <div>
+            <h2 id="serviceResultTitle">Service Clinics</h2>
+            <p id="serviceResultText">Select a service to view clinics.</p>
+        </div>
+    </div>
+
+    <div id="serviceClinicList" class="clinic-list clinic-grid-3"></div>
+    <div id="serviceClinicPagination" class="clinic-pagination"></div>
+</section>
+
+<div id="serviceOverlay" class="modal" aria-hidden="true">
+    <div class="modal-content admin-modal">
+        <button type="button" class="close-btn" onclick="closeServiceClinics()">×</button>
+
+        <h2 id="serviceResultTitle">Service Clinics</h2>
+        <p id="serviceResultText">Loading clinics...</p>
+        <p><strong id="serviceOverlayCount">0</strong> clinic(s) found</p>
+
+        <div id="serviceClinicList" class="clinic-list clinic-grid-3"></div>
+        <div id="serviceClinicPagination" class="clinic-pagination"></div>
+    </div>
+</div>
+
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <button type="button" class="close-btn" onclick="closeDetails()">×</button>
+
+        <div class="detail-map-strip">
+            <div class="detail-pin">📍</div>
+        </div>
+
+        <h2 id="detailName"></h2>
+
+        <p id="detailRating" class="clinic-rating"></p>
+
+        <div class="detail-item">
+            <span>📍</span>
+            <div>
+                <small>Address</small>
+                <p id="detailAddress"></p>
+            </div>
+        </div>
+
+        <div class="detail-item">
+            <span>📞</span>
+            <div>
+                <small>Contact Number</small>
+                <p id="detailContact"></p>
+            </div>
+        </div>
+
+        <div class="detail-item">
+            <span>🕒</span>
+            <div>
+                <small>Hours</small>
+                <p id="detailHours"></p>
+                <strong id="detailStatus"></strong>
+            </div>
+        </div>
+
+        <h4>Available Services</h4>
+        <div id="detailServices" class="service-tags"></div>
+
+        <div class="modal-actions">
+            <button type="button" onclick="getDirections()" class="outline-btn">Get Directions</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MediMap</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <span>+</span>
+            </div>
+
+            <div class="brand-text">
+                <h2>MediMap</h2>
+                <p>Find Care Faster</p>
+            </div>
+        </div>
+
+        <div class="sidebar-tagline">
+            <strong>Healthcare clinic locator</strong>
+            <small>Find clinics and nearby healthcare locations around Bacolod City.</small>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'find_clinics' %}" class="{% if active_page == 'find' %}active{% endif %}">
+                <span class="nav-text">Find Clinics</span>
+            </a>
+
+            <a href="{% url 'nearby' %}" class="{% if active_page == 'nearby' %}active{% endif %}">
+                <span class="nav-text">Nearby Me</span>
+            </a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'admin_page' %}" class="{% if active_page == 'admin' %}active{% endif %}">
+                    <span class="nav-text">Admin Management</span>
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="{% if active_page == 'login' %}active{% endif %}">
+                    <span class="nav-text">Admin Login</span>
+                </a>
+            {% endif %}
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="logged-card">
+                {% if user.is_authenticated %}
+                    <small>Logged in as</small>
+                    <strong>{{ user.username }}</strong>
+                {% else %}
+                    <small>Viewing as</small>
+                    <strong>Public User</strong>
+                {% endif %}
+            </div>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="logout-link">
+                    <span>↪</span>
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="logout-link">
+                    Admin Login
+                </a>
+            {% endif %}
+        </div>
+    </aside>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

@@ -1,63 +1,267 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MediMap Admin</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+{% extends "layout.html" %}
 
-<header>
-    <h1>MediMap Admin Panel</h1>
-    <a href="/">Back to Map</a>
-</header>
+{% block content %}
 
-<section class="form-section">
-    <h2>Add Clinic</h2>
-
-    <form action="/add" method="POST">
-        <input type="text" name="name" placeholder="Clinic Name" required>
-        <input type="text" name="address" placeholder="Address" required>
-        <input type="text" name="contact" placeholder="Contact Number">
-        <input type="text" name="services" placeholder="Services Offered">
-        <input type="text" name="latitude" placeholder="Latitude" required>
-        <input type="text" name="longitude" placeholder="Longitude" required>
-        <button type="submit">Add Clinic</button>
-    </form>
+<section class="page-header">
+    <h1>Admin Management</h1>
+    <p>Manage and organize all healthcare clinic information</p>
 </section>
 
-<section class="table-section">
-    <h2>Clinic List</h2>
+<section class="admin-search-section">
+    <div class="hero-search-row admin-control-row">
+        <div class="hero-search">
+            <input
+                type="text"
+                id="adminSearch"
+                placeholder="Search clinic name, address, or service..."
+                onkeyup="filterAdminCards()"
+            >
+        </div>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Clinic Name</th>
-            <th>Address</th>
-            <th>Contact</th>
-            <th>Services</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Action</th>
-        </tr>
+        <button type="button" onclick="openAddModal()" class="hero-search-btn">
+             Add Clinic
+        </button>
+    </div>
+</section>
 
+<section class="admin-card-section">
+    <div class="carousel-header">
+        <div>
+            <h2>Clinic Records</h2>
+            <p id="adminResultText">Showing clinic records</p>
+        </div>
+
+        <div class="carousel-controls">
+            <button type="button" onclick="changeAdminPage(currentAdminPage - 1)">‹</button>
+            <button type="button" onclick="changeAdminPage(currentAdminPage + 1)">›</button>
+        </div>
+    </div>
+
+    <div id="adminClinicList" class="admin-clinics-container">
         {% for clinic in clinics %}
-        <tr>
-            <td>{{ clinic.id }}</td>
-            <td>{{ clinic.name }}</td>
-            <td>{{ clinic.address }}</td>
-            <td>{{ clinic.contact }}</td>
-            <td>{{ clinic.services }}</td>
-            <td>{{ clinic.latitude }}</td>
-            <td>{{ clinic.longitude }}</td>
-            <td>
-                <a href="/delete/{{ clinic.id }}" onclick="return confirm('Delete this clinic?')">
-                    Delete
+        <div class="admin-clinic-card" data-clinic-name="{{ clinic.name|lower }}">
+            <div class="clinic-card-header">
+                <h3>{{ clinic.name }}</h3>
+                <span class="status-badge">{{ clinic.computed_status }}</span>
+            </div>
+
+            <p class="clinic-rating">
+                ★★★★★ {{ clinic.rating|default:"5.0" }} / 5.0
+            </p>
+
+            <p>📍 {{ clinic.address }}</p>
+            <p>📞 {{ clinic.contact|default:"No contact listed" }}</p>
+            <p>🕒 {{ clinic.days_display }}</p>
+
+            {% if clinic.open_time and clinic.close_time %}
+                <p>⏰ {{ clinic.open_time|time:"g:i A" }} - {{ clinic.close_time|time:"g:i A" }}</p>
+            {% endif %}
+
+            <div class="service-tags">
+                {% for service in clinic.service_list %}
+                    <span>{{ service }}</span>
+                {% empty %}
+                    <span>No services listed</span>
+                {% endfor %}
+            </div>
+
+            <div class="admin-location-info">
+                <p>Latitude: {{ clinic.latitude }}</p>
+                <p>Longitude: {{ clinic.longitude }}</p>
+            </div>
+
+            <div class="admin-card-actions">
+                <button type="button" onclick="openEditModal('{{ clinic.id }}')" class="edit-btn">
+                    ✎ Edit
+                </button>
+
+                <a 
+                    href="{% url 'delete_clinic' clinic.id %}" 
+                    onclick="return confirm('Delete this clinic?')" 
+                    class="delete-btn"
+                >
+                    🗑 Delete
                 </a>
-            </td>
-        </tr>
+            </div>
+        </div>
+
+        <div id="editModal{{ clinic.id }}" class="modal">
+            <div class="modal-content admin-modal">
+                <button type="button" class="close-btn" onclick="closeEditModal('{{ clinic.id }}')">×</button>
+
+                <h2>Edit Clinic</h2>
+                <p class="form-subtitle">Update clinic details below.</p>
+
+                <form action="{% url 'edit_clinic' clinic.id %}" method="POST" class="clinic-form">
+                    {% csrf_token %}
+
+                    <label>Clinic Name</label>
+                    <input type="text" name="name" value="{{ clinic.name }}" required>
+
+                    <label>Address</label>
+                    <input type="text" name="address" value="{{ clinic.address }}" required>
+
+                    <label>Phone Number</label>
+                    <input type="text" name="contact" value="{{ clinic.contact|default:'' }}">
+
+                    <div class="form-row">
+                        <div>
+                            <label>Latitude</label>
+                            <input type="number" name="latitude" value="{{ clinic.latitude }}" step="0.000001" required>
+                        </div>
+                        <div>
+                            <label>Longitude</label>
+                            <input type="number" name="longitude" value="{{ clinic.longitude }}" step="0.000001" required>
+                        </div>
+                    </div>
+
+                    <label>Opening Time</label>
+                    <input type="time" name="open_time" value="{% if clinic.open_time %}{{ clinic.open_time|time:'H:i' }}{% endif %}">
+
+                    <label>Closing Time</label>
+                    <input type="time" name="close_time" value="{% if clinic.close_time %}{{ clinic.close_time|time:'H:i' }}{% endif %}">
+
+                    <label>Days Open</label>
+                    <div class="weekday-checkboxes">
+                        <label><input type="checkbox" name="open_monday" {% if clinic.open_monday %}checked{% endif %}> Monday</label>
+                        <label><input type="checkbox" name="open_tuesday" {% if clinic.open_tuesday %}checked{% endif %}> Tuesday</label>
+                        <label><input type="checkbox" name="open_wednesday" {% if clinic.open_wednesday %}checked{% endif %}> Wednesday</label>
+                        <label><input type="checkbox" name="open_thursday" {% if clinic.open_thursday %}checked{% endif %}> Thursday</label>
+                        <label><input type="checkbox" name="open_friday" {% if clinic.open_friday %}checked{% endif %}> Friday</label>
+                        <label><input type="checkbox" name="open_saturday" {% if clinic.open_saturday %}checked{% endif %}> Saturday</label>
+                        <label><input type="checkbox" name="open_sunday" {% if clinic.open_sunday %}checked{% endif %}> Sunday</label>
+                    </div>
+
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="Open Now" {% if clinic.status == "Open Now" %}selected{% endif %}>Open Now</option>
+                        <option value="Closed" {% if clinic.status == "Closed" %}selected{% endif %}>Closed</option>
+                        <option value="Available" {% if clinic.status == "Available" %}selected{% endif %}>Available</option>
+                    </select>
+
+                    <label>Rating</label>
+                    <select name="rating">
+                        <option value="5.0" {% if clinic.rating == 5.0 %}selected{% endif %}>★★★★★ 5.0</option>
+                        <option value="4.5" {% if clinic.rating == 4.5 %}selected{% endif %}>★★★★☆ 4.5</option>
+                        <option value="4.0" {% if clinic.rating == 4.0 %}selected{% endif %}>★★★★☆ 4.0</option>
+                        <option value="3.5" {% if clinic.rating == 3.5 %}selected{% endif %}>★★★☆☆ 3.5</option>
+                        <option value="3.0" {% if clinic.rating == 3.0 %}selected{% endif %}>★★★☆☆ 3.0</option>
+                        <option value="2.5" {% if clinic.rating == 2.5 %}selected{% endif %}>★★☆☆☆ 2.5</option>
+                        <option value="2.0" {% if clinic.rating == 2.0 %}selected{% endif %}>★★☆☆☆ 2.0</option>
+                        <option value="1.5" {% if clinic.rating == 1.5 %}selected{% endif %}>★☆☆☆☆ 1.5</option>
+                        <option value="1.0" {% if clinic.rating == 1.0 %}selected{% endif %}>★☆☆☆☆ 1.0</option>
+                    </select>
+
+                    <label>Services</label>
+                    <div class="service-select-grid">
+                        {% for service in services %}
+                        <label class="service-option">
+                            <input type="checkbox" name="services" value="{{ service }}" {% if service in clinic.service_list %}checked{% endif %}>
+                            <span>{{ service }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+
+                    <label>Other Services</label>
+                    <input type="text" name="custom_services" placeholder="Example: X-ray, Ultrasound, Pharmacy">
+
+                    <button type="submit" class="primary-btn full-btn">Update Clinic</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>No clinics added yet. Click "Add Clinic" to get started.</p>
+        </div>
         {% endfor %}
-    </table>
+    </div>
+
+    <div id="adminPagination" class="clinic-pagination"></div>
 </section>
 
-</body>
-</html>
+<div id="addModal" class="modal">
+    <div class="modal-content admin-modal">
+        <button type="button" class="close-btn" onclick="closeAddModal()">×</button>
+
+        <h2>Add New Clinic</h2>
+        <p class="form-subtitle">Enter clinic details below.</p>
+
+        <form action="{% url 'add_clinic' %}" method="POST" class="clinic-form">
+            {% csrf_token %}
+
+            <label>Clinic Name</label>
+            <input type="text" name="name" placeholder="Enter clinic name" required>
+
+            <label>Address</label>
+            <input type="text" name="address" placeholder="Enter clinic address" required>
+
+            <label>Phone Number</label>
+            <input type="text" name="contact" placeholder="Enter contact number">
+
+            <div class="form-row">
+                <div>
+                    <label>Latitude</label>
+                    <input type="number" name="latitude" placeholder="e.g., 10.3157" step="0.000001" required>
+                </div>
+                <div>
+                    <label>Longitude</label>
+                    <input type="number" name="longitude" placeholder="e.g., 123.8854" step="0.000001" required>
+                </div>
+            </div>
+
+            <label>Opening Time</label>
+            <input type="time" name="open_time">
+
+            <label>Closing Time</label>
+            <input type="time" name="close_time">
+
+            <label>Days Open</label>
+            <div class="weekday-checkboxes">
+                <label><input type="checkbox" name="open_monday" checked> Monday</label>
+                <label><input type="checkbox" name="open_tuesday" checked> Tuesday</label>
+                <label><input type="checkbox" name="open_wednesday" checked> Wednesday</label>
+                <label><input type="checkbox" name="open_thursday" checked> Thursday</label>
+                <label><input type="checkbox" name="open_friday" checked> Friday</label>
+                <label><input type="checkbox" name="open_saturday" checked> Saturday</label>
+                <label><input type="checkbox" name="open_sunday" checked> Sunday</label>
+            </div>
+
+            <label>Status</label>
+            <select name="status">
+                <option value="Open Now">Open Now</option>
+                <option value="Closed">Closed</option>
+                <option value="Available">Available</option>
+            </select>
+
+            <label>Rating</label>
+            <select name="rating">
+                <option value="5.0">★★★★★ 5.0</option>
+                <option value="4.5">★★★★☆ 4.5</option>
+                <option value="4.0">★★★★☆ 4.0</option>
+                <option value="3.5">★★★☆☆ 3.5</option>
+                <option value="3.0">★★★☆☆ 3.0</option>
+                <option value="2.5">★★☆☆☆ 2.5</option>
+                <option value="2.0">★★☆☆☆ 2.0</option>
+                <option value="1.5">★☆☆☆☆ 1.5</option>
+                <option value="1.0">★☆☆☆☆ 1.0</option>
+            </select>
+
+            <label>Services</label>
+            <div class="service-select-grid">
+                {% for service in services %}
+                <label class="service-option">
+                    <input type="checkbox" name="services" value="{{ service }}">
+                    <span>{{ service }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <label>Other Services</label>
+            <input type="text" name="custom_services" placeholder="Example: X-ray, Ultrasound, Pharmacy">
+
+            <button type="submit" class="primary-btn full-btn">Save Clinic</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MediMap Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<section class="login-screen">
+
+    <div class="login-brand">
+        <div class="login-brand-icon">+</div>
+        <h1>MediMap</h1>
+        <p>Healthcare Clinic Locator for Bacolod City</p>
+    </div>
+
+    <div class="login-wrapper">
+
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <p>Access the MediMap admin panel to manage clinic records.</p>
+
+            {% if error %}
+                <div class="error-message">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <div class="public-browse-card">
+            <div>
+                <h3>Continue as Public User</h3>
+                <p>
+                    Browse clinics and nearby healthcare locations without logging in.
+                </p>
+            </div>
+
+            <div class="public-browse-actions public-browse-actions-two">
+                <a href="{% url 'find_clinics' %}">Find Clinics</a>
+                <a href="{% url 'nearby' %}">Nearby Me</a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<section class="hero-map-page">
+
+    <div class="hero-left">
+        <div class="verified-pill">
+            <span></span>
+            MediMap healthcare clinic locator for Bacolod City
+        </div>
+
+        <h1>
+            Find healthcare<br>
+            you can <em>trust,</em><br>
+            near you.
+        </h1>
+
+        <p class="hero-description">
+            Search nearby clinics, health centers, and medical services within Bacolod City in one place.
+            Find the care you need faster with MediMap.
+        </p>
+
+        <div class="hero-search-row">
+            <div class="hero-search">
+                <input 
+                    type="text" 
+                    id="textSearch" 
+                    placeholder="Search clinic, address, or service..."
+                >
+            </div>
+
+            <select id="serviceSelect" class="hero-service-select">
+                <option value="">All Services</option>
+                <option value="Dental">Dental</option>
+                <option value="Check-up">Check-up</option>
+                <option value="Vaccination">Vaccination</option>
+                <option value="Anti-Rabies">Anti-Rabies</option>
+                <option value="Dog Bite / Anti-Rabies">Dog Bite / Anti-Rabies</option>
+                <option value="Laboratory">Laboratory</option>
+                <option value="Dialysis">Dialysis</option>
+                <option value="Pediatric">Pediatric</option>
+                <option value="OB-GYN">OB-GYN</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Health Center">Health Center</option>
+            </select>
+
+            <button type="button" class="hero-search-btn" onclick="searchClinics()">
+                Search
+            </button>
+        </div>
+
+        <div class="hero-chips">
+            <button type="button" onclick="quickSearch('Dental')">Dental</button>
+            <button type="button" onclick="quickSearch('Check-up')">Check-up</button>
+            <button type="button" onclick="quickSearch('Vaccination')">Vaccination</button>
+            <button type="button" onclick="quickSearch('Anti-Rabies')">Anti-Rabies</button>
+            <button type="button" onclick="quickSearch('Dog Bite / Anti-Rabies')">Dog Bite / Anti-Rabies</button>
+            <button type="button" onclick="quickSearch('Laboratory')">Laboratory</button>
+        </div>
+
+        <div class="hero-stats">
+            <div>
+                <strong id="clinicCountText">0</strong>
+                <span>Total clinics listed</span>
+            </div>
+
+            <div>
+                <strong>24/7</strong>
+                <span>Search access</span>
+            </div>
+
+            <div>
+                <strong id="averageRatingText">0.0★</strong>
+                <span>Avg. clinic rating</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <div class="map-card hero-map-card">
+            <div id="map"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="clinic-carousel-section">
+    <div class="carousel-header">
+        <div>
+            <h2>Clinic Results <span id="clinicCount"></span></h2>
+            <p id="resultText">Showing available clinics</p>
+        </div>
+
+        <div class="carousel-controls">
+            <button type="button" onclick="changeClinicPage(currentClinicPage - 1)">‹</button>
+            <button type="button" onclick="changeClinicPage(currentClinicPage + 1)">›</button>
+        </div>
+    </div>
+
+    <div id="clinicList" class="clinic-list clinic-carousel-grid"></div>
+
+    <div id="clinicPagination" class="clinic-pagination"></div>
+</section>
+
+<div id="detailsModal" class="modal">
+    <div class="modal-content">
+        <button type="button" class="close-btn" onclick="closeDetails()">×</button>
+
+        <div class="detail-map-strip">
+            <div class="detail-pin">📍</div>
+        </div>
+
+        <h2 id="detailName"></h2>
+
+        <p id="detailRating" class="clinic-rating"></p>
+
+        <div class="detail-item">
+            <span>📍</span>
+            <div>
+                <small>Address</small>
+                <p id="detailAddress"></p>
+            </div>
+        </div>
+
+        <div class="detail-item">
+            <span>📞</span>
+            <div>
+                <small>Contact Number</small>
+                <p id="detailContact"></p>
+            </div>
+        </div>
+
+        <div class="detail-item">
+            <span>🕒</span>
+            <div>
+                <small>Hours</small>
+                <p id="detailHours"></p>
+                <strong id="detailStatus"></strong>
+            </div>
+        </div>
+
+        <h4>Available Services</h4>
+        <div id="detailServices" class="service-tags"></div>
+
+        <div class="modal-actions">
+            <button type="button" onclick="viewOnMap()" class="primary-btn">View on Map</button>
+            <button type="button" onclick="getDirections()" class="outline-btn">Get Directions</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
