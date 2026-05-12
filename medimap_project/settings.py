@@ -3,23 +3,28 @@ Django settings for medimap_project project.
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# -------------------------------------------------------
 # SECURITY
-SECRET_KEY = "django-insecure-&-#4%f5q@m#)4$#w+*o%*&ik3li$6e6lc@b)v)zkypin%z!!@x"
+# -------------------------------------------------------
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-&-#4%f5q@m#)4$#w+*o%*&ik3li$6e6lc@b)v)zkypin%z!!@x"
+)
 
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "192.168.254.160",
-]
+ALLOWED_HOSTS = os.environ.get(
+    "DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost"
+).split(",")
 
-
+# -------------------------------------------------------
 # APPLICATIONS
+# -------------------------------------------------------
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,8 +36,9 @@ INSTALLED_APPS = [
     "clinics",
 ]
 
-
+# -------------------------------------------------------
 # MIDDLEWARE
+# -------------------------------------------------------
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -43,20 +49,20 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
+# -------------------------------------------------------
 # URL / WSGI
+# -------------------------------------------------------
 ROOT_URLCONF = "medimap_project.urls"
 
 WSGI_APPLICATION = "medimap_project.wsgi.application"
 
-
+# -------------------------------------------------------
 # TEMPLATES
+# -------------------------------------------------------
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR / "templates",
-        ],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -68,38 +74,28 @@ TEMPLATES = [
     },
 ]
 
-
-# DATABASE - PostgreSQL / pgAdmin 4
+# -------------------------------------------------------
+# DATABASE - PostgreSQL (use DATABASE_URL for Render)
+# -------------------------------------------------------
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "medimap_db",
-        "USER": "postgres",
-        "PASSWORD": "pajarillo14",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.config(
+        default=f"postgres://postgres:pajarillo14@localhost:5432/medimap_db"
+    )
 }
 
-
+# -------------------------------------------------------
 # PASSWORD VALIDATION
+# -------------------------------------------------------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
+# -------------------------------------------------------
 # LANGUAGE / TIME
+# -------------------------------------------------------
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Manila"
@@ -108,22 +104,34 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+# -------------------------------------------------------
 # STATIC FILES
+# -------------------------------------------------------
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Collect static files in production
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# -------------------------------------------------------
 # DEFAULT PRIMARY KEY
+# -------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
+# -------------------------------------------------------
 # LOGIN / LOGOUT SETTINGS
+# -------------------------------------------------------
 LOGIN_URL = "login"
-
 LOGIN_REDIRECT_URL = "admin_page"
-
 LOGOUT_REDIRECT_URL = "login"
+
+# -------------------------------------------------------
+# RENDER / PRODUCTION SETTINGS
+# -------------------------------------------------------
+# Allow HTTPS redirect if needed
+SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "False") == "True"
+SESSION_COOKIE_SECURE = SECURE_SSL_REDIRECT
+CSRF_COOKIE_SECURE = SECURE_SSL_REDIRECT
