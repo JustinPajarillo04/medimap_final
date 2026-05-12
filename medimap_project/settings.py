@@ -21,7 +21,7 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 # ALLOWED_HOSTS: local defaults + environment variable for Render
 ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS",
-    "127.0.0.1,localhost"
+    "127.0.0.1,localhost,medimap-clinic-locator.onrender.com"
 ).split(",")
 
 # ---------------- APPLICATIONS ----------------
